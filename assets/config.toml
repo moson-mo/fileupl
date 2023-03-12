@@ -1,0 +1,17 @@
+# URL that is being used
+# We need this for the documentation and return the URL to an uploaded file
+url = "http://127.0.0.1:9999"
+
+# Interface/port that is being listened on
+# :port will listen on all network interfaces
+listen_address = ":9999"
+
+# API key for authentication
+# Leaving it blank will disable auth
+api_key = "changeme"
+
+# Path to the directory where files are being stored
+directory = "/tmp/fileupl"
+
+# Maximum filesize for uploaded files in MB
+max_mb = 10

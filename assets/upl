@@ -1,0 +1,19 @@
+#!/bin/bash
+
+url="https://example.com"
+key="changeme"
+
+if [ "$1" ]; then
+	echo "Uploading file $1"
+    qry=""
+    if [ "$2" = "pfn" ]; then
+        qry="?pfn=true"
+    fi
+	ret=$(curl -s -H "APIKey: $key" -F file=@$1 "$url/upload$qry")
+else
+	echo "Uploading from stdin"
+	ret=$(curl -s -H "APIKey: $key" -F file=@- "$url/upload")
+fi
+
+echo "Done: "$ret
+xdg-open $ret

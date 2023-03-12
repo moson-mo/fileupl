@@ -1,0 +1,12 @@
+[Unit]
+Description=fileupl server
+After=network-online.target
+Wants=network-online.target systemd-networkd-wait-online.service
+
+[Service]
+User=http
+ExecStart=/usr/local/bin/fileupl
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
