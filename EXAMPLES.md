@@ -14,12 +14,18 @@ Pipe some output to our script. `curl` reads and uploads data from stdin.
 
 - `$ echo "some output" | upl`
 
-#### Sway/Wayland: Upload screenshot
+#### Upload screenshot
+
+##### Sway/Wayland
 
 Uses `grim` and `slurp` to take a screenshot from a selected area.  
 Let's you enrich the screenshot via `swappy` and then uploads it after closing `swappy`.
 
 - `$ grim -g "$(slurp)" - | swappy -f - -o - | upl`
+
+##### Flameshot
+
+- `$ flameshot gui --raw | upl`
 
 #### Upload clipboard content
 
