@@ -6,9 +6,9 @@ url = "http://127.0.0.1:9999"
 # :port will listen on all network interfaces
 listen_address = ":9999"
 
-# API key for authentication
-# Leaving it blank will disable auth
-api_key = "changeme"
+# Set a password required for uploading files
+# Leaving it blank will disable password authentication
+password = "changeme"
 
 # Path to the directory where files are being stored
 directory = "/tmp/fileupl"

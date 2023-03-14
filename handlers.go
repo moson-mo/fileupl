@@ -8,16 +8,37 @@ import (
 	"strings"
 )
 
-// check content-type and handle requests accordingly
+// middleware checking password for post requests
+func postRequirePassword(next http.HandlerFunc) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// we only care if a password is defined if it's POST request
+		if config.Password != "" && r.Method == http.MethodPost {
+			// support pw in header and form data
+			ph := r.Header.Get("password")
+			pf := r.FormValue("password")
+
+			// serve request if we have a match, otherwise return error
+			if ph == config.Password || pf == config.Password {
+				next(w, r)
+			} else {
+				w.WriteHeader(http.StatusUnauthorized)
+				fmt.Fprintln(w, "Incorrect or missing password")
+			}
+		} else {
+			next(w, r)
+		}
+	})
+}
+
+// handle file uploads
 func uploadHandler(w http.ResponseWriter, r *http.Request) {
-	if config.APIKey != "" && r.Header.Get("APIKey") != config.APIKey {
-		w.WriteHeader(http.StatusUnauthorized)
-		fmt.Fprintln(w, "Incorrect or missing APIKey header")
+	if r.Method == http.MethodGet {
+		w.Write([]byte(uploadPage))
 		return
 	}
 
 	if r.Method != http.MethodPost {
-		writeError(w, "Method not supported", nil)
+		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
 

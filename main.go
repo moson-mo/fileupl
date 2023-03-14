@@ -27,9 +27,8 @@ func main() {
 	config, err = loadConfig(configFile)
 	if err != nil {
 		fmt.Println("Error loading config file:", err)
+		fmt.Println("Falling back to default configuration")
 		fmt.Println()
-		fmt.Println("Please enter an API key (leave blank to disable authentication):")
-		fmt.Scanln(&config.APIKey)
 	}
 
 	if _, err := os.Stat(config.Directory); errors.Is(err, os.ErrNotExist) {
@@ -39,8 +38,9 @@ func main() {
 		}
 	}
 
-	if config.APIKey == "" {
-		fmt.Println("WARNING: APIKey is empty. This allows unauthenticated uploads...")
+	if config.Password == "" {
+		fmt.Println("WARNING: Password is not set.")
+		fmt.Println()
 	}
 
 	fmt.Println("Files will be stored in", config.Directory)
@@ -49,7 +49,7 @@ func main() {
 
 	// http handlers
 	fs := http.FileServer(http.Dir(config.Directory))
-	http.HandleFunc("/upload", uploadHandler)
+	http.Handle("/upload", postRequirePassword(uploadHandler))
 	http.Handle("/files/", http.StripPrefix("/files/", fs))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, documentation(config.Url))

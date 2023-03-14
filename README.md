@@ -7,7 +7,7 @@ Some use cases:
 - Install it on your server and self-host your own pastebin service.
 - Quickly share screenshots, logfiles, etc. with others.
 
-The `/upload` endpoint can be protected by an `APIKey` and thus require authentication.  
+The `/upload` endpoint can be protected by a password.    
 `SHA-1` hash of the file content is used as the new filename, accessible via the `/files` endpoint.  
 If you want to preserve the original name of the file, add a query param: `?pfn=true` to the URL.
 
@@ -29,9 +29,9 @@ url = "http://127.0.0.1:9999"
 # :port will listen on all network interfaces
 listen_address = ":9999"
 
-# API key for authentication
-# Leaving it blank will disable auth
-api_key = "changeme"
+# Set a password required for uploading files
+# Leaving it blank will disable password authentication
+password = "changeme"
 
 # Path to the directory where files are being stored
 directory = "/tmp/fileupl"

@@ -9,7 +9,7 @@ import (
 type Config struct {
 	Url           string `toml:"url"`
 	ListenAddress string `toml:"listen_address"`
-	APIKey        string `toml:"api_key"`
+	Password      string `toml:"password"`
 	Directory     string `toml:"directory"`
 	MaxMB         int    `toml:"max_mb"`
 }
